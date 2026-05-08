@@ -2290,7 +2290,38 @@ color: rgba(59, 51, 43, 0.82);
   }
 }
 
+/* ==========================================================================
+   DEBUG / FIX — Desktop Clouds sichtbar machen
+========================================================================== */
 
+@media (min-width: 768px) {
+  .hero-clouds-desktop {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .hero-clouds-desktop .hero-clouds-svg {
+    width: 130% !important;
+    height: 130% !important;
+    overflow: visible !important;
+  }
+
+  .hero-clouds-desktop svg,
+  .hero-clouds-desktop g,
+  #cloud-group-first-desktop,
+  #cloud-group-sec-desktop,
+  #cloud-group-third-desktop {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  #cloud-group-first-desktop {
+    display: block !important;
+    transform: translate(0, 0) scale(1.08);
+    transform-origin: center;
+  }
+}
 
 min-height: 500px;
 }
