@@ -211,6 +211,132 @@ ease: "power2.out"
 });
 });
 
+
+/* ==========================================================================
+   HERO CLOUDS — GSAP DESKTOP ANIMATION
+   4 Wolken: gemeinsam nach rechts schweben,
+   zeitversetzt auf ca. 150% wachsen und wieder schrumpfen
+========================================================================== */
+
+function initHeroDesktopClouds() {
+  if (typeof gsap === "undefined") return;
+
+  const desktopQuery = window.matchMedia("(min-width: 768px)");
+
+  const clouds = [
+    {
+      el: "#cloud-group-first-desktop",
+      x: 40,
+      y: 150,
+      scale: 0.82,
+      opacity: 0.48,
+      delay: 0
+    },
+    {
+      el: "#cloud-group-second-desktop",
+      x: 330,
+      y: 70,
+      scale: 0.55,
+      opacity: 0.38,
+      delay: 0.9
+    },
+    {
+      el: "#cloud-group-third-desktop",
+      x: 650,
+      y: 155,
+      scale: 0.68,
+      opacity: 0.42,
+      delay: 1.8
+    },
+    {
+      el: "#cloud-group-fourth-desktop",
+      x: 920,
+      y: 95,
+      scale: 0.52,
+      opacity: 0.34,
+      delay: 2.7
+    }
+  ];
+
+  let heroCloudTimeline;
+
+  function startCloudAnimation() {
+    if (!desktopQuery.matches) return;
+
+    if (heroCloudTimeline) {
+      heroCloudTimeline.kill();
+    }
+
+    heroCloudTimeline = gsap.timeline();
+
+    clouds.forEach((cloud) => {
+      const el = document.querySelector(cloud.el);
+      if (!el) return;
+
+      gsap.set(el, {
+        x: cloud.x,
+        y: cloud.y,
+        scale: cloud.scale,
+        opacity: cloud.opacity,
+        transformOrigin: "50% 50%",
+        transformBox: "fill-box"
+      });
+
+      /* Alle Wolken schweben gemeinsam nach rechts */
+      gsap.to(el, {
+        x: cloud.x + 90,
+        duration: 18,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true
+      });
+
+      /* Jede Wolke pulsiert zeitversetzt auf 150% ihrer eigenen Größe */
+      gsap.to(el, {
+        scale: cloud.scale * 1.5,
+        duration: 7.5,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        delay: cloud.delay
+      });
+    });
+  }
+
+  function stopCloudAnimation() {
+    if (heroCloudTimeline) {
+      heroCloudTimeline.kill();
+      heroCloudTimeline = null;
+    }
+
+    clouds.forEach((cloud) => {
+      const el = document.querySelector(cloud.el);
+      if (!el) return;
+
+      gsap.killTweensOf(el);
+      gsap.set(el, {
+        x: cloud.x,
+        y: cloud.y,
+        scale: cloud.scale,
+        opacity: cloud.opacity,
+        transformOrigin: "50% 50%",
+        transformBox: "fill-box"
+      });
+    });
+  }
+
+  startCloudAnimation();
+
+  desktopQuery.addEventListener("change", () => {
+    if (desktopQuery.matches) {
+      startCloudAnimation();
+    } else {
+      stopCloudAnimation();
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", initHeroDesktopClouds);
 /* =========================================
 4. FORMULAR-SENDEN (API)
 ========================================= */
