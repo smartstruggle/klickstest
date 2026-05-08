@@ -1041,6 +1041,24 @@ display: none;
 }
 }
 
+/* Mobile: sichtbar bis zum Breakpoint */
+.hero-clouds-mobile {
+  display: block;
+}
+.hero-clouds-desktop {
+  display: none;
+}
+
+/* Desktop: ab z.B. 768px umschalten */
+@media (min-width: 768px) {
+  .hero-clouds-mobile {
+    display: none;
+  }
+  .hero-clouds-desktop {
+    display: block;
+  }
+}
+
 
 /* ==========================================================================
    PILOT OFFER — SPEECH BUBBLE VARIANT
