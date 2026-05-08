@@ -498,9 +498,11 @@ button {
 
 
 /* ==========================================================================
-   HERO — CLEAN RESPONSIVE GRID LAYOUT
-   Mobile Clouds nur mobil, Desktop Clouds nur desktop
-   Kein gelber Glow, keine abgeschnittenen Wolken
+   HERO — FINAL CLEAN VERSION
+   Desktop: 4 Wolken über Hero verteilt
+   Mobile: eigene Mobile-Wolken
+   Kein gelber Glow
+   Keine abgeschnittenen Wolken oben
 ========================================================================== */
 
 .hero {
@@ -509,10 +511,9 @@ button {
 
   min-height: calc(100svh - var(--header-height));
 
-  padding-top: clamp(3.5rem, 6vw, 5.5rem);
+  padding-top: clamp(4.5rem, 7vw, 7rem);
   padding-bottom: clamp(4rem, 7vw, 7rem);
 
-  /* Neutraler heller Hintergrund — kein gelber Glow */
   background: linear-gradient(
     180deg,
     #fffaf4 0%,
@@ -525,8 +526,11 @@ button {
 ========================================================================== */
 
 .hero-single {
+  position: relative;
+  z-index: 5;
+
   width: min(100% - (2 * var(--page-pad-x)), 1580px);
-  min-height: calc(100svh - var(--header-height) - 7rem);
+  min-height: calc(100svh - var(--header-height) - 9rem);
 
   margin-inline: auto;
 
@@ -545,7 +549,7 @@ button {
 
 .hero-copy {
   position: relative;
-  z-index: 10;
+  z-index: 20;
 
   max-width: 42rem;
 
@@ -586,7 +590,7 @@ button {
 
 .hero-actions {
   position: relative;
-  z-index: 12;
+  z-index: 25;
 
   display: flex;
   align-items: center;
@@ -653,9 +657,7 @@ button {
 .hero-whatsapp-link svg {
   width: 1rem;
   height: 1rem;
-
   color: var(--orange);
-
   flex: 0 0 auto;
 }
 
@@ -671,7 +673,7 @@ button {
 
 .hero-graphic-wrapper {
   position: relative;
-  z-index: 2;
+  z-index: 10;
 
   width: 100%;
   min-height: clamp(30rem, 44vw, 42rem);
@@ -684,16 +686,15 @@ button {
   isolation: isolate;
 }
 
-/* Kein gelber Glow hinter der Grafik */
+/* Kein gelber Glow */
 .hero-graphic-wrapper::before {
   content: none !important;
   display: none !important;
 }
 
-/* Hauptgrafik */
 .hero-graphic {
   position: relative;
-  z-index: 3;
+  z-index: 12;
 
   width: min(100%, 34rem);
   max-width: 100%;
@@ -704,60 +705,31 @@ button {
 }
 
 /* ==========================================================================
-   CLOUDS — eigene Bühne um die Hero-Grafik
-   Nicht fullscreen, nicht hinter Header
+   CLOUDS — BASIS
 ========================================================================== */
 
 .hero-clouds-wrapper {
-  position: absolute;
-
-  left: 50%;
-  top: 52%;
-
-  z-index: 2;
-
-  width: min(78vw, 50rem);
-  aspect-ratio: 1140 / 622;
-
-  transform: translate(-50%, -50%);
-
   pointer-events: none;
-  overflow: visible;
 }
 
 .hero-clouds-svg {
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  width: 100%;
-  height: 100%;
-
-  max-width: none;
-
   display: block;
-
-  transform: translate(-50%, -50%);
-
   overflow: visible;
 }
 
-/* ==========================================================================
-   MOBILE / DESKTOP CLOUD SWITCH
-========================================================================== */
-
-/* Standard: mobile Wolken sichtbar */
+/* Mobile sichtbar, Desktop aus */
 .hero-clouds-mobile {
   display: block;
 }
 
-/* Standard: desktop Wolken aus */
 .hero-clouds-desktop {
   display: none;
 }
 
-/* Ab Desktop: mobile aus, desktop an */
+/* ==========================================================================
+   DESKTOP CLOUDS — eigene Bühne, nicht am Header
+========================================================================== */
+
 @media (min-width: 768px) {
   .hero-clouds-mobile {
     display: none !important;
@@ -766,15 +738,138 @@ button {
   .hero-clouds-desktop {
     display: block !important;
   }
+
+  .hero-clouds-wrapper.hero-clouds-desktop {
+    position: absolute;
+
+    /*
+      Wichtig:
+      NICHT top: 0;
+      NICHT inset: 0;
+      Sondern bewusst tiefer im Hero.
+    */
+    left: 50%;
+    top: 47%;
+
+    z-index: 2;
+
+    width: min(128vw, 112rem);
+    height: clamp(26rem, 42vw, 44rem);
+
+    transform: translate(-50%, -50%);
+
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .hero-clouds-desktop .hero-clouds-svg {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: visible;
+  }
+
+  #cloud-group-first-desktop,
+  #cloud-group-second-desktop,
+  #cloud-group-third-desktop,
+  #cloud-group-fourth-desktop {
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform, opacity;
+  }
+
+  /*
+    Wolke 1 — links, aber nicht mehr oben abgeschnitten
+  */
+  #cloud-group-first-desktop {
+    transform: translate(40px, 150px) scale(0.82);
+    opacity: 0.48;
+  }
+
+  /*
+    Wolke 2 — oben links/mittig, aber mit genug Abstand zum Header
+  */
+  #cloud-group-second-desktop {
+    transform: translate(330px, 70px) scale(0.55);
+    opacity: 0.38;
+  }
+
+  /*
+    Wolke 3 — mittig/rechts
+  */
+  #cloud-group-third-desktop {
+    transform: translate(650px, 155px) scale(0.68);
+    opacity: 0.42;
+  }
+
+  /*
+    Wolke 4 — rechts oben, aber nicht am Rand klebend
+  */
+  #cloud-group-fourth-desktop {
+    transform: translate(920px, 95px) scale(0.52);
+    opacity: 0.34;
+  }
 }
 
-/* Cloud-Gruppen für Animationen / Transform */
+/* ==========================================================================
+   MOBILE CLOUDS
+========================================================================== */
+
+@media (max-width: 767px) {
+  .hero-clouds-desktop {
+    display: none !important;
+  }
+
+  .hero-clouds-mobile {
+    display: block !important;
+  }
+
+  .hero-clouds-wrapper.hero-clouds-mobile {
+    position: absolute;
+
+    left: 50%;
+    top: 52%;
+
+    z-index: 2;
+
+    width: min(128vw, 38rem);
+    aspect-ratio: 1140 / 622;
+
+    transform: translate(-50%, -50%);
+
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .hero-clouds-mobile .hero-clouds-svg {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 100%;
+    height: 100%;
+
+    transform: translate(-50%, -50%);
+
+    overflow: visible;
+  }
+}
+
+/* ==========================================================================
+   CLOUD IDS
+========================================================================== */
+
 #cloud-group-first,
 #cloud-group-sec,
 #cloud-group-third,
 #cloud-group-first-desktop,
-#cloud-group-sec-desktop,
-#cloud-group-third-desktop {
+#cloud-group-second-desktop,
+#cloud-group-third-desktop,
+#cloud-group-fourth-desktop {
   transform-origin: center;
   will-change: transform;
 }
@@ -791,7 +886,7 @@ button {
   margin-bottom: 1.5rem;
 
   position: relative;
-  z-index: 20;
+  z-index: 30;
 
   pointer-events: none;
 }
@@ -878,11 +973,6 @@ button {
   .hero-graphic {
     width: min(92vw, 34rem);
   }
-
-  .hero-clouds-wrapper {
-    width: min(112vw, 48rem);
-    top: 52%;
-  }
 }
 
 /* ==========================================================================
@@ -935,11 +1025,6 @@ button {
 
   .hero-graphic {
     width: min(92vw, 28rem);
-  }
-
-  .hero-clouds-wrapper {
-    width: min(128vw, 38rem);
-    top: 51%;
   }
 
   .hero-connector {
@@ -2290,111 +2375,5 @@ color: rgba(59, 51, 43, 0.82);
   }
 }
 
-/* ==========================================================================
-   DEBUG / FIX — Desktop Clouds sichtbar machen
-========================================================================== */
-
-@media (min-width: 768px) {
-  .hero-clouds-desktop {
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
-  .hero-clouds-desktop .hero-clouds-svg {
-    width: 130% !important;
-    height: 130% !important;
-    overflow: visible !important;
-  }
-
-  .hero-clouds-desktop svg,
-  .hero-clouds-desktop g,
-  #cloud-group-first-desktop,
-  #cloud-group-sec-desktop,
-  #cloud-group-third-desktop {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
-  #cloud-group-first-desktop {
-    display: block !important;
-    transform: translate(0, 0) scale(1.08);
-    transform-origin: center;
-  }
-}
-
-
-/* ==========================================================================
-   DESKTOP CLOUDS — 4 Wolken schön über den Hero verteilt
-========================================================================== */
-
-@media (min-width: 768px) {
-  .hero-clouds-mobile {
-    display: none !important;
-  }
-
-  .hero-clouds-desktop {
-    display: block !important;
-  }
-
-  .hero-clouds-wrapper.hero-clouds-desktop {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-
-    width: min(118vw, 90rem);
-    height: clamp(20rem, 34vw, 32rem);
-
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    overflow: visible;
-    z-index: 2;
-  }
-
-  .hero-clouds-desktop .hero-clouds-svg {
-    position: absolute;
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    overflow: visible;
-    display: block;
-  }
-
-  /* Grundverhalten für alle Desktop-Wolken */
-  #cloud-group-first-desktop,
-  #cloud-group-second-desktop,
-  #cloud-group-third-desktop,
-  #cloud-group-fourth-desktop {
-    transform-box: fill-box;
-    transform-origin: center;
-    will-change: transform, opacity;
-  }
-
-  /* Wolke 1 — eher links */
-  #cloud-group-first-desktop {
-    transform: translate(-120px, 10px) scale(0.95);
-    opacity: 0.68;
-  }
-
-  /* Wolke 2 — oben mittig-links */
-  #cloud-group-second-desktop {
-    transform: translate(120px, -95px) scale(0.68);
-    opacity: 0.52;
-  }
-
-  /* Wolke 3 — mittig / leicht rechts */
-  #cloud-group-third-desktop {
-    transform: translate(410px, 10px) scale(0.82);
-    opacity: 0.60;
-  }
-
-  /* Wolke 4 — rechts oben */
-  #cloud-group-fourth-desktop {
-    transform: translate(700px, -75px) scale(0.60);
-    opacity: 0.48;
-  }
-}
-min-height: 500px;
+ 500px;
 }
