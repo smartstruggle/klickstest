@@ -2288,23 +2288,6 @@ color: rgba(59, 51, 43, 0.82);
 }
 
 
-/* Mobile: sichtbar bis zum Breakpoint */
-.hero-clouds-mobile {
-  display: block;
-}
-.hero-clouds-desktop {
-  display: none;
-}
-
-/* Desktop: ab z.B. 768px umschalten */
-@media (min-width: 768px) {
-  .hero-clouds-mobile {
-    display: none;
-  }
-  .hero-clouds-desktop {
-    display: block;
-  }
-}
 
    
 min-height: 500px;
