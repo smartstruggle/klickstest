@@ -2837,6 +2837,89 @@ margin-top: 0;
 }
 }
 
+/* =========================================
+HERO CLOUD TITLE — CLEAN FULL-BLEED
+========================================= */
+
+.hero {
+overflow: hidden;
+}
+
+/* Cloud-Block nicht im Container begrenzen */
+.hero-cloud-title-wrapper {
+position: relative;
+width: 100vw;
+margin-left: calc(50% - 50vw);
+overflow: visible;
+background: transparent !important;
+}
+
+.hero-clouds-wrapper {
+position: relative;
+width: 100%;
+overflow: visible;
+pointer-events: none;
+background: transparent !important;
+border: 0 !important;
+outline: 0 !important;
+}
+
+.hero-clouds-svg {
+display: block;
+max-width: none;
+height: auto;
+overflow: visible;
+background: transparent !important;
+border: 0 !important;
+outline: 0 !important;
+}
+
+/* Mobile: direkt unter Header, nicht abgeschnitten */
+@media (max-width: 767px) {
+.hero {
+padding-top: 0 !important;
+}
+
+.hero h1,
+.hero-title-anim {
+display: none !important;
+}
+
+.hero-cloud-title-wrapper {
+margin-top: 0 !important;
+margin-bottom: 1.5rem;
+}
+
+.hero-clouds-wrapper {
+min-height: clamp(27rem, 96vw, 36rem);
+}
+
+.hero-clouds-svg {
+width: 135vw;
+transform: translateX(-17vw) translateY(-1rem);
+}
+
+.hero-subline {
+margin-top: 0;
+}
+}
+
+/* Desktop: breit, aber ohne gelbe Box */
+@media (min-width: 768px) {
+.hero-cloud-title-wrapper {
+margin-top: -1rem;
+margin-bottom: 2rem;
+}
+
+.hero-clouds-wrapper {
+min-height: clamp(22rem, 36vw, 34rem);
+}
+
+.hero-clouds-svg {
+width: min(120vw, 92rem);
+margin-inline: auto;
+}
+}
 
    
 min-height: 500px;
