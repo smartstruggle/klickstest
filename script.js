@@ -209,6 +209,105 @@ if (heroGraphic) scrollObserver.observe(heroGraphic);
 if (siteFooter) scrollObserver.observe(siteFooter);
 }
 
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+// GSAP MatchMedia für Breakpoints und Accessibility
+let mm = gsap.matchMedia();
+
+// greift nur bis 767px UND wenn Nutzer reduzierte Bewegung nicht bevorzugen
+mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+
+// Elemente auswählen
+const cloudWrapper = document.querySelector('.hero-clouds-wrapper');
+const clouds = [
+document.querySelector('#cloud-group-first'),
+document.querySelector('#cloud-group-sec'),
+document.querySelector('#cloud-group-third')
+];
+
+// Bestehende Elemente, die weich eingeblendet werden sollen
+// Passe diese Klassennamen an dein echtes HTML an
+const heroGraphic = document.querySelector('.hero-graphic');
+const heroTextElements = document.querySelector('.hero-text-content');
+
+// Sicherheits-Check: Abbrechen, falls das SVG oder die Gruppen fehlen
+if (!cloudWrapper || !clouds[0] || !clouds[1] || !clouds[2]) {
+console.warn("GSAP Hero Animation: SVG-Gruppen nicht gefunden.");
+return;
+}
+
+// --- 1. ENTRANCE TIMELINE ---
+const tl = gsap.timeline({
+// Sobald der Entrance fertig ist, startet das atmosphärische Atmen
+onComplete: initBreathingClouds
+});
+
+// Initiale Startzustände setzen (verhindert Flackern)
+// Wolken starten leicht versetzt nach links (x: -15%), leicht kleiner und unsichtbar
+gsap.set(clouds, { xPercent: -15, scale: 0.95, opacity: 0 });
+
+// Text und Grafik starten unsichtbar (und Text leicht nach unten versetzt)
+if (heroGraphic) gsap.set(heroGraphic, { opacity: 0 });
+if (heroTextElements) gsap.set(heroTextElements, { opacity: 0, y: 15 });
+
+// Wolken ziehen weich ein (Dauer 2.5s, sehr sanft)
+tl.to(clouds, {
+xPercent: 0,
+scale: 1,
+opacity: 1,
+duration: 2.5,
+stagger: 0.15, // Wolken kommen minimal zeitversetzt für mehr Tiefe
+ease: "power2.out"
+})
+// Text und Grafik blenden sich weich ein, *während* die Wolken fast ankommen
+// ("-=1.0" bedeutet, die Animation startet 1 Sekunde bevor die Wolken fertig sind)
+.to([heroGraphic, heroTextElements], {
+opacity: 1,
+y: 0,
+duration: 1.5,
+stagger: 0.2, // Erst baut sich die Grafik auf, dann der Text (oder umgekehrt)
+ease: "power2.out"
+}, "-=1.0");
+
+// --- 2. CONTINUOUS FLOATING (Atmen) ---
+function initBreathingClouds() {
+// Jede Wolke bekommt leicht andere Werte für einen asymmetrischen, natürlichen Look
+clouds.forEach((cloud, index) => {
+if (!cloud) return;
+
+// Sehr langsame Dauer: 4 bis 6 Sekunden pro Zyklus
+const duration = 4 + index;
+// Minimaler Delay, damit sie nicht synchron atmen
+const delay = index * 0.4;
+
+gsap.to(cloud, {
+xPercent: "random(-1.5, 1.5)", // minimale seitliche Drift
+yPercent: "random(-1.5, 1.5)", // minimale vertikale Drift
+scale: "random(0.99, 1.01)", // fast unmerkliches Skalieren
+rotation: "random(-0.5, 0.5)", // winzige Neigung
+duration: duration,
+ease: "sine.inOut", // extrem weiche Kurve für Loop-Umkehrpunkte
+repeat: -1, // endlos
+yoyo: true, // vor und zurück
+delay: delay,
+transformOrigin: "center center" // Wichtig für sauberes Skalieren/Rotieren
+});
+});
+}
+});
+
+// --- FALLBACK-SICHERHEIT ---
+// Für Desktop oder wenn "prefers-reduced-motion" aktiv ist.
+// Hier passiert nichts weiter, GSAP setzt die Elemente nicht auf opacity: 0,
+// sie werden also ganz normal durch CSS geladen und angezeigt.
+});
+
+
+
+
+
 /* =========================================
 6. DESKTOP HERO ANIMATION (Full Restored Version)
 ========================================= */
