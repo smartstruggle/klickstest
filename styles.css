@@ -586,41 +586,124 @@ button {
   margin-top: clamp(2.4rem, 4vw, 4rem);
 }
 
-* Stellt sicher, dass die absoluten Wolken im Container bleiben */
+/* =========================================
+HERO CLOUDS
+========================================= */
+
 .hero-graphic-wrapper {
 position: relative;
 width: 100%;
-overflow: visible; /* Oder hidden, je nachdem wie dein Design aufgebaut ist */
+margin-top: 2rem;
+overflow: hidden;
 }
 
-/* Wolken-Wrapper: Mobil sichtbar, absolute Positionierung innerhalb der Grafik */
 .hero-clouds-wrapper {
 position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-z-index: 2; /* Über der Grafik (oder 0, falls sie dahinter liegen sollen) */
-pointer-events: none; /* Verhindert, dass die Wolken Klicks auf Links blockieren */
-display: flex;
-align-items: center; /* Zentriert das SVG vertikal im Wrapper */
+inset: 0;
+z-index: 3;
+pointer-events: none;
+overflow: visible;
 }
 
-/* Das SVG verhält sich responsiv zum Container */
+/* SVG */
+
 .hero-clouds-svg {
 width: 100%;
 height: auto;
-max-width: 100%;
 display: block;
+
+transform-origin: center;
 }
 
-/* --- MOBILE ONLY SICHERUNG --- */
-/* Auf Desktop (ab 768px) wird der Cloud-Layer komplett aus dem DOM "entfernt" */
-@media (min-width: 768px) {
-.hero-clouds-wrapper {
-display: none !important;
+/* Hero Grafik */
+
+.hero-graphic {
+position: relative;
+z-index: 1;
+
+width: 100%;
+max-width: 520px;
+
+margin-inline: auto;
+display: block;
+
+filter:
+drop-shadow(0 30px 60px rgba(0,0,0,0.12));
+}
+
+/* Soft Glow */
+
+.hero-graphic-wrapper::before {
+content: "";
+
+position: absolute;
+
+width: 140%;
+height: 140%;
+
+left: 50%;
+top: 50%;
+
+transform: translate(-50%, -50%);
+
+background:
+radial-gradient(
+circle,
+rgba(255, 232, 146, 0.42) 0%,
+rgba(255, 232, 146, 0.18) 35%,
+rgba(255, 232, 146, 0.00) 72%
+);
+
+filter: blur(60px);
+
+z-index: 0;
+pointer-events: none;
+}
+
+/* Clouds */
+
+#cloud-group-first,
+#cloud-group-sec,
+#cloud-group-third {
+transform-origin: center;
+will-change: transform;
+}
+
+/* Mobile Optimierung */
+
+@media (max-width: 767px) {
+
+.hero-graphic-wrapper {
+margin-top: 3rem;
+min-height: 340px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.hero-clouds-svg {
+position: absolute;
+
+width: 115%;
+max-width: none;
+
+left: 50%;
+top: 48%;
+
+transform: translate(-50%, -50%);
+}
+
+.hero-graphic {
+width: 92%;
+max-width: 420px;
+
+position: relative;
+z-index: 2;
 }
 }
+
+
 
 
 /* ==========================================================================
