@@ -2748,6 +2748,94 @@ border: 0 !important;
 }
 }
 
+/* =========================================
+HERO CLOUD TITLE — FINAL LAYOUT FIX
+========================================= */
+
+/* Debug-/Linien entfernen */
+.hero-cloud-title-wrapper,
+.hero-clouds-wrapper,
+.hero-clouds-svg {
+border: 0 !important;
+outline: 0 !important;
+}
+
+/* Cloud-Title allgemein */
+.hero-cloud-title-wrapper {
+position: relative;
+width: 100%;
+overflow: visible;
+z-index: 2;
+}
+
+.hero-clouds-wrapper {
+position: relative;
+width: 100%;
+overflow: visible;
+pointer-events: none;
+}
+
+.hero-clouds-svg {
+display: block;
+width: 100%;
+height: auto;
+overflow: visible;
+}
+
+/* Desktop: Wolken dürfen breit atmen */
+@media (min-width: 768px) {
+.hero-cloud-title-wrapper {
+width: min(100vw, 78rem);
+margin-top: -1.5rem;
+margin-bottom: clamp(2rem, 4vw, 3.5rem);
+margin-left: 0;
+}
+
+.hero-clouds-wrapper {
+min-height: clamp(20rem, 34vw, 34rem);
+}
+
+.hero-clouds-svg {
+width: min(112vw, 82rem);
+max-width: none;
+transform: translateX(-4%);
+}
+}
+
+/* Mobile: H1 verstecken, Clouds als Titel nutzen */
+@media (max-width: 767px) {
+.hero h1,
+.hero-title-anim {
+display: none !important;
+}
+
+.hero-copy {
+overflow: visible;
+}
+
+.hero-cloud-title-wrapper {
+width: min(118vw, 34rem);
+margin-top: -2.25rem;
+margin-left: -1.35rem;
+margin-bottom: 2.25rem;
+overflow: visible;
+}
+
+.hero-clouds-wrapper {
+min-height: clamp(26rem, 92vw, 34rem);
+overflow: visible;
+}
+
+.hero-clouds-svg {
+width: 122%;
+max-width: none;
+transform: translateX(-4%);
+}
+
+.hero-subline {
+margin-top: 0;
+}
+}
 
 
    
