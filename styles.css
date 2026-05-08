@@ -498,7 +498,9 @@ button {
 
 
 /* ==========================================================================
-   HERO — CLEAN RESPONSIVE LAYOUT
+   HERO — CLEAN RESPONSIVE GRID LAYOUT
+   Mobile Clouds nur mobil, Desktop Clouds nur desktop
+   Kein gelber Glow, keine abgeschnittenen Wolken
 ========================================================================== */
 
 .hero {
@@ -507,17 +509,15 @@ button {
 
   min-height: calc(100svh - var(--header-height));
 
-  padding-top: clamp(3.5rem, 6vw, 6rem);
+  padding-top: clamp(3.5rem, 6vw, 5.5rem);
   padding-bottom: clamp(4rem, 7vw, 7rem);
 
-  background:
-    radial-gradient(
-      circle at 50% 2%,
-      rgba(255,255,255,0.96) 0%,
-      rgba(255,255,255,0.55) 26rem,
-      transparent 52rem
-    ),
-    var(--color-light-section-gradient);
+  /* Neutraler heller Hintergrund — kein gelber Glow */
+  background: linear-gradient(
+    180deg,
+    #fffaf4 0%,
+    #f8f1e7 100%
+  );
 }
 
 /* ==========================================================================
@@ -526,32 +526,32 @@ button {
 
 .hero-single {
   width: min(100% - (2 * var(--page-pad-x)), 1580px);
+  min-height: calc(100svh - var(--header-height) - 7rem);
 
   margin-inline: auto;
 
   display: grid;
   grid-template-columns:
-    minmax(20rem, 0.88fr)
-    minmax(24rem, 1.12fr);
+    minmax(20rem, 0.9fr)
+    minmax(24rem, 1.1fr);
 
   align-items: center;
-
-  gap: clamp(2rem, 5vw, 7rem);
+  gap: clamp(2.5rem, 5vw, 7rem);
 }
 
 /* ==========================================================================
-   COPY
+   HERO COPY
 ========================================================================== */
 
 .hero-copy {
   position: relative;
   z-index: 10;
 
+  max-width: 42rem;
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
-  max-width: 42rem;
 
   text-align: left;
 }
@@ -572,7 +572,6 @@ button {
 
 .hero-subline {
   margin-top: clamp(1.4rem, 2vw, 2rem);
-
   max-width: 37rem;
 
   font-size: clamp(1.08rem, 1rem + 0.35vw, 1.34rem);
@@ -582,7 +581,7 @@ button {
 }
 
 /* ==========================================================================
-   CTA
+   HERO CTA
 ========================================================================== */
 
 .hero-actions {
@@ -604,21 +603,18 @@ button {
   justify-content: center;
 
   min-height: 3.85rem;
-
   padding-inline: 2.3rem;
 
   border: none;
   border-radius: 999px;
 
   background: var(--orange);
-
   color: #fff !important;
 
   font-size: 1.08rem;
   font-weight: 760;
 
-  box-shadow:
-    0 18px 40px rgba(232, 106, 44, 0.20);
+  box-shadow: 0 18px 40px rgba(232, 106, 44, 0.2);
 
   transition:
     transform 0.2s ease,
@@ -631,11 +627,8 @@ button {
 .hero-primary-cta:hover,
 .hero-primary-cta:focus-visible {
   transform: translateY(-2px);
-
   background: var(--orange-dark);
-
-  box-shadow:
-    0 24px 52px rgba(232, 106, 44, 0.28);
+  box-shadow: 0 24px 52px rgba(232, 106, 44, 0.28);
 }
 
 .hero-whatsapp-link {
@@ -657,6 +650,15 @@ button {
     border-color 0.2s ease;
 }
 
+.hero-whatsapp-link svg {
+  width: 1rem;
+  height: 1rem;
+
+  color: var(--orange);
+
+  flex: 0 0 auto;
+}
+
 .hero-whatsapp-link:hover,
 .hero-whatsapp-link:focus-visible {
   color: var(--orange);
@@ -664,92 +666,77 @@ button {
 }
 
 /* ==========================================================================
-   GRAPHIC WRAPPER
+   HERO GRAPHIC AREA
 ========================================================================== */
 
 .hero-graphic-wrapper {
   position: relative;
+  z-index: 2;
 
   width: 100%;
+  min-height: clamp(30rem, 44vw, 42rem);
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   overflow: visible;
+  isolation: isolate;
 }
 
-/* ==========================================================================
-   HERO GLOW
-========================================================================== */
-
+/* Kein gelber Glow hinter der Grafik */
 .hero-graphic-wrapper::before {
-  content: "";
-
-  position: absolute;
-
-  width: 140%;
-  height: 140%;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(255, 229, 136, 0.42) 0%,
-      rgba(255, 229, 136, 0.16) 38%,
-      rgba(255, 229, 136, 0) 72%
-    );
-
-  filter: blur(70px);
-
-  z-index: 0;
-
-  pointer-events: none;
+  content: none !important;
+  display: none !important;
 }
 
-/* ==========================================================================
-   HERO IMAGE
-========================================================================== */
-
+/* Hauptgrafik */
 .hero-graphic {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 
-  width: min(115%, 54rem);
+  width: min(100%, 34rem);
+  max-width: 100%;
 
   display: block;
 
-  filter:
-    drop-shadow(0 30px 60px rgba(0,0,0,0.14));
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.12));
 }
 
 /* ==========================================================================
-   CLOUDS
+   CLOUDS — eigene Bühne um die Hero-Grafik
+   Nicht fullscreen, nicht hinter Header
 ========================================================================== */
 
 .hero-clouds-wrapper {
   position: absolute;
-  inset: 0;
 
-  z-index: 3;
+  left: 50%;
+  top: 52%;
+
+  z-index: 2;
+
+  width: min(78vw, 50rem);
+  aspect-ratio: 1140 / 622;
+
+  transform: translate(-50%, -50%);
 
   pointer-events: none;
-
   overflow: visible;
 }
 
 .hero-clouds-svg {
   position: absolute;
 
-  width: 122%;
-  max-width: none;
-
   left: 50%;
   top: 50%;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+
+  display: block;
 
   transform: translate(-50%, -50%);
 
@@ -760,34 +747,34 @@ button {
    MOBILE / DESKTOP CLOUD SWITCH
 ========================================================================== */
 
+/* Standard: mobile Wolken sichtbar */
 .hero-clouds-mobile {
   display: block;
 }
 
+/* Standard: desktop Wolken aus */
 .hero-clouds-desktop {
   display: none;
 }
 
+/* Ab Desktop: mobile aus, desktop an */
 @media (min-width: 768px) {
-
   .hero-clouds-mobile {
-    display: none;
+    display: none !important;
   }
 
   .hero-clouds-desktop {
-    display: block;
+    display: block !important;
   }
 }
 
-/* ==========================================================================
-   CLOUD GROUPS
-========================================================================== */
-
+/* Cloud-Gruppen für Animationen / Transform */
 #cloud-group-first,
 #cloud-group-sec,
 #cloud-group-third,
 #cloud-group-first-desktop,
-#cloud-group-sec-desktop {
+#cloud-group-sec-desktop,
+#cloud-group-third-desktop {
   transform-origin: center;
   will-change: transform;
 }
@@ -828,8 +815,17 @@ button {
 .hero-connector__node {
   fill: var(--orange);
 
+  filter: drop-shadow(0 0 8px rgba(232, 106, 44, 0.36));
+}
+
+.hero-connector__node--small {
+  opacity: 0.7;
+}
+
+.hero-connector__node--main {
   filter:
-    drop-shadow(0 0 8px rgba(232, 106, 44, 0.36));
+    drop-shadow(0 0 4px rgba(232, 106, 44, 0.45))
+    drop-shadow(0 0 14px rgba(232, 106, 44, 0.24));
 }
 
 /* ==========================================================================
@@ -837,7 +833,6 @@ button {
 ========================================================================== */
 
 @media (max-width: 980px) {
-
   .hero {
     min-height: auto;
 
@@ -846,16 +841,15 @@ button {
   }
 
   .hero-single {
-    grid-template-columns: 1fr;
+    min-height: auto;
 
+    grid-template-columns: 1fr;
     gap: clamp(2rem, 7vw, 4rem);
   }
 
   .hero-copy {
     align-items: center;
-
     max-width: 46rem;
-
     text-align: center;
   }
 
@@ -865,9 +859,11 @@ button {
     text-align: center;
 
     font-size: clamp(3.6rem, 11vw, 6rem);
+    line-height: 0.96;
   }
 
   .hero-subline {
+    max-width: 34rem;
     text-align: center;
   }
 
@@ -875,10 +871,17 @@ button {
     justify-content: center;
   }
 
-  .hero-graphic {
-    width: min(132vw, 56rem);
+  .hero-graphic-wrapper {
+    min-height: clamp(28rem, 70vw, 40rem);
+  }
 
-    transform: translateX(4%);
+  .hero-graphic {
+    width: min(92vw, 34rem);
+  }
+
+  .hero-clouds-wrapper {
+    width: min(112vw, 48rem);
+    top: 52%;
   }
 }
 
@@ -887,7 +890,6 @@ button {
 ========================================================================== */
 
 @media (max-width: 767px) {
-
   .hero {
     padding-top: clamp(3.4rem, 10vw, 5rem);
     padding-bottom: clamp(5rem, 14vw, 7rem);
@@ -901,8 +903,8 @@ button {
     max-width: 7.3ch;
 
     font-size: clamp(3.2rem, 14vw, 5rem);
-
     line-height: 0.96;
+    letter-spacing: -0.07em;
   }
 
   .hero-subline {
@@ -914,8 +916,8 @@ button {
 
   .hero-actions {
     flex-direction: column;
-
     width: 100%;
+    gap: 0.95rem;
   }
 
   .hero-primary-cta {
@@ -927,16 +929,17 @@ button {
     font-size: 1rem;
   }
 
-  .hero-graphic {
-    width: min(145vw, 44rem);
-
-    transform: translateX(8%);
+  .hero-graphic-wrapper {
+    min-height: clamp(24rem, 92vw, 35rem);
   }
 
-  .hero-clouds-svg {
-    width: 135%;
+  .hero-graphic {
+    width: min(92vw, 28rem);
+  }
 
-    top: 48%;
+  .hero-clouds-wrapper {
+    width: min(128vw, 38rem);
+    top: 51%;
   }
 
   .hero-connector {
@@ -2288,48 +2291,6 @@ color: rgba(59, 51, 43, 0.82);
 }
 
 
-/* GRAPHIC WRAPPER */
-.hero-graphic-wrapper {
-  position: relative;
-  width: 100%;
 
-  min-height: clamp(28rem, 46vw, 42rem);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  overflow: visible;
-}
-
-/* CLOUDS */
-.hero-clouds-wrapper {
-  position: absolute;
-  inset: 50% auto auto 50%;
-
-  width: 100%;
-  height: 100%;
-
-  z-index: 3;
-  pointer-events: none;
-  overflow: visible;
-
-  transform: translate(-50%, -50%);
-}
-
-.hero-clouds-svg {
-  position: absolute;
-
-  width: 122%;
-  max-width: none;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  overflow: visible;
-}
-   
 min-height: 500px;
 }
