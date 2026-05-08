@@ -2649,5 +2649,54 @@ outline: 2px solid red;
 
 .hero-graphic-wrapper {
 position: relative;
+
+
+
+   /* =========================================
+MOBILE HERO — CLOUDS AS TITLE
+========================================= */
+
+@media (max-width: 767px) {
+.hero-title-anim {
+position: absolute;
+width: 1px;
+height: 1px;
+overflow: hidden;
+clip-path: inset(50%);
+white-space: nowrap;
+}
+
+.hero-graphic-wrapper {
+position: relative;
+width: 100%;
+margin-top: 1.5rem;
+min-height: clamp(18rem, 70vw, 26rem);
+overflow: visible;
+}
+
+.hero-clouds-wrapper {
+position: relative;
+z-index: 2;
+width: min(100%, 26rem);
+margin-inline: auto;
+overflow: visible;
+}
+
+.hero-clouds-svg {
+display: block;
+width: 100%;
+height: auto;
+overflow: visible;
+}
+
+.hero-graphic-img,
+.hero-graphic {
+display: none;
+}
+}
+
+
+
+   
 min-height: 500px;
 }
