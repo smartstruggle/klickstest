@@ -2323,5 +2323,78 @@ color: rgba(59, 51, 43, 0.82);
   }
 }
 
+
+/* ==========================================================================
+   DESKTOP CLOUDS — 4 Wolken schön über den Hero verteilt
+========================================================================== */
+
+@media (min-width: 768px) {
+  .hero-clouds-mobile {
+    display: none !important;
+  }
+
+  .hero-clouds-desktop {
+    display: block !important;
+  }
+
+  .hero-clouds-wrapper.hero-clouds-desktop {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    width: min(118vw, 90rem);
+    height: clamp(20rem, 34vw, 32rem);
+
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    overflow: visible;
+    z-index: 2;
+  }
+
+  .hero-clouds-desktop .hero-clouds-svg {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: visible;
+    display: block;
+  }
+
+  /* Grundverhalten für alle Desktop-Wolken */
+  #cloud-group-first-desktop,
+  #cloud-group-second-desktop,
+  #cloud-group-third-desktop,
+  #cloud-group-fourth-desktop {
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform, opacity;
+  }
+
+  /* Wolke 1 — eher links */
+  #cloud-group-first-desktop {
+    transform: translate(-120px, 10px) scale(0.95);
+    opacity: 0.68;
+  }
+
+  /* Wolke 2 — oben mittig-links */
+  #cloud-group-second-desktop {
+    transform: translate(120px, -95px) scale(0.68);
+    opacity: 0.52;
+  }
+
+  /* Wolke 3 — mittig / leicht rechts */
+  #cloud-group-third-desktop {
+    transform: translate(410px, 10px) scale(0.82);
+    opacity: 0.60;
+  }
+
+  /* Wolke 4 — rechts oben */
+  #cloud-group-fourth-desktop {
+    transform: translate(700px, -75px) scale(0.60);
+    opacity: 0.48;
+  }
+}
 min-height: 500px;
 }
