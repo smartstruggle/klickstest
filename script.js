@@ -126,85 +126,52 @@ closeFlyerPopup();
 }
 });
 
-// Sicherstellen, dass das Skript erst läuft, wenn alles geladen ist
-window.addEventListener("load", () => {
+const heroGraphicWrapper = document.querySelector(".hero-graphic-wrapper");
+const heroCloudsWrapper = document.querySelector(".hero-clouds-wrapper");
+const heroCloudsSvg = document.querySelector(".hero-clouds-svg");
 
-// 1. Prüfen, ob GSAP vorhanden ist
-if (typeof gsap === "undefined") {
-console.error("GSAP ist nicht geladen! Prüfe deine Script-Tags.");
-return;
-}
-
-console.log("GSAP geladen - Starte Mobile Animation Check...");
-
-const mm = gsap.matchMedia();
-
-// Wir testen es mobil (bis 767px)
-mm.add("(max-width: 767px)", () => {
-
-// Selektoren – wir nutzen die IDs aus deinem Figma-Screenshot
 const clouds = [
-document.querySelector('#cloud-group-first'),
-document.querySelector('#cloud-group-sec'),
-document.querySelector('#cloud-group-third')
-];
+heroCloudsSvg?.querySelector("#cloud-group-first"),
+heroCloudsSvg?.querySelector("#cloud-group-sec"),
+heroCloudsSvg?.querySelector("#cloud-group-third")
+].filter(Boolean);
 
-const heroGraphic = document.querySelector('.hero-graphic');
-const heroText = document.querySelector('.hero-text-content');
 
-// Filtern: Nur existierende Gruppen animieren (verhindert Error-Stop)
-const validClouds = clouds.filter(c => c !== null);
+/* =========================================
+HERO CLOUD ENTRANCE ANIMATION
+========================================= */
 
-if (validClouds.length === 0) {
-console.warn("Keine Cloud-IDs im DOM gefunden. Prüfe, ob das SVG inline im HTML steht.");
+window.addEventListener("load", () => {
+if (typeof gsap === "undefined") {
+console.warn("GSAP ist nicht geladen. Cloud-Animation übersprungen.");
 return;
 }
 
-// --- ENTRANCE TIMELINE ---
-const tl = gsap.timeline({
-delay: 0.5, // Kurze Pause nach dem Laden
-onComplete: () => startFloating(validClouds)
-});
+const prefersReducedMotion = window.matchMedia(
+"(prefers-reduced-motion: reduce)"
+).matches;
 
-// Initialzustand erzwingen
-gsap.set(validClouds, { x: -50, opacity: 0, scale: 0.9 });
-if (heroGraphic) gsap.set(heroGraphic, { opacity: 0 });
+if (prefersReducedMotion) return;
 
-// Die Animation
-tl.to(validClouds, {
-x: 0,
-opacity: 1,
-scale: 1,
-duration: 2,
-stagger: 0.2,
-ease: "power2.out"
-})
-.to(heroGraphic, {
-opacity: 1,
-duration: 1.5,
-ease: "power1.inOut"
-}, "-=1");
+const heroGraphicWrapper = document.querySelector(".hero-graphic-wrapper");
+const heroCloudsWrapper = document.querySelector(".hero-clouds-wrapper");
+const heroCloudsSvg = document.querySelector(".hero-clouds-svg");
 
-// --- FLOATING LOOP ---
-function startFloating(elements) {
-elements.forEach((el, i) => {
-gsap.to(el, {
-x: "random(-10, 10)",
-y: "random(-5, 5)",
-duration: 3 + i,
-repeat: -1,
-yoyo: true,
-ease: "sine.inOut"
-});
-});
+if (!heroGraphicWrapper || !heroCloudsWrapper || !heroCloudsSvg) {
+console.warn("Cloud-Animation: Wrapper oder SVG nicht gefunden.");
+return;
 }
 
-// Cleanup-Funktion für matchMedia
-return () => {
-gsap.killTweensOf([validClouds, heroGraphic]);
-};
-});
-});
+const clouds = [
+heroCloudsSvg.querySelector("#cloud-group-first"),
+heroCloudsSvg.querySelector("#cloud-group-sec"),
+heroCloudsSvg.querySelector("#cloud-group-third"),
+].filter(Boolean);
+
+if (clouds.length === 0) {
+console.warn("Cloud-Animation: Keine
+
+
 
 /* =========================================
 4. FORMULAR-SENDEN (API)
