@@ -2633,3 +2633,21 @@ color: rgba(59, 51, 43, 0.82);
     overflow-x: hidden;
   }
 }
+.hero-clouds-wrapper {
+position: absolute;
+inset: 0;
+z-index: 9999;
+pointer-events: none;
+}
+
+.hero-clouds-svg {
+width: 100%;
+height: auto;
+
+outline: 2px solid red;
+}
+
+.hero-graphic-wrapper {
+position: relative;
+min-height: 500px;
+}
