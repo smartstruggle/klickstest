@@ -586,56 +586,42 @@ button {
   margin-top: clamp(2.4rem, 4vw, 4rem);
 }
 
-/* ==========================================================================
-   HERO GRAPHIC — rechts, groß, aber im Grid
-========================================================================== */
-
-.hero-graphic {
-  position: relative;
-  z-index: 2;
-
-  width: min(100%, 62vw);
-  max-width: 880px;
-
-  justify-self: end;
-  align-self: center;
-
-  margin-left: auto;
-
-  transform: translateX(10%);
+* Stellt sicher, dass die absoluten Wolken im Container bleiben */
+.hero-graphic-wrapper {
+position: relative;
+width: 100%;
+overflow: visible; /* Oder hidden, je nachdem wie dein Design aufgebaut ist */
 }
 
-/* Glow hinter dem K */
-.hero-graphic::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  right: -22%;
-  top: -18%;
-  width: 105%;
-  height: 120%;
-  background: radial-gradient(
-    circle at 58% 42%,
-    rgba(250, 226, 125, 0.55) 0%,
-    rgba(250, 226, 125, 0.34) 28%,
-    rgba(250, 226, 125, 0.16) 52%,
-    transparent 76%
-  );
-  filter: blur(26px);
-  pointer-events: none;
+/* Wolken-Wrapper: Mobil sichtbar, absolute Positionierung innerhalb der Grafik */
+.hero-clouds-wrapper {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 2; /* Über der Grafik (oder 0, falls sie dahinter liegen sollen) */
+pointer-events: none; /* Verhindert, dass die Wolken Klicks auf Links blockieren */
+display: flex;
+align-items: center; /* Zentriert das SVG vertikal im Wrapper */
 }
 
-
-
-.hero-graphic-img,
-.hero-graphic-svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-
-  filter: drop-shadow(0 38px 70px rgba(21, 25, 34, 0.08));
+/* Das SVG verhält sich responsiv zum Container */
+.hero-clouds-svg {
+width: 100%;
+height: auto;
+max-width: 100%;
+display: block;
 }
+
+/* --- MOBILE ONLY SICHERUNG --- */
+/* Auf Desktop (ab 768px) wird der Cloud-Layer komplett aus dem DOM "entfernt" */
+@media (min-width: 768px) {
+.hero-clouds-wrapper {
+display: none !important;
+}
+}
+
 
 /* ==========================================================================
    HERO — TABLET
