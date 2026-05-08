@@ -2695,6 +2695,59 @@ display: none;
 }
 }
 
+@media (max-width: 767px) {
+.hero h1,
+.hero-title-anim {
+display: none !important;
+}
+
+.hero-cloud-title-wrapper {
+display: block;
+width: min(112vw, 34rem);
+margin: 0 0 2rem;
+margin-left: -1.25rem;
+overflow: visible;
+}
+
+.hero-clouds-wrapper {
+position: relative;
+width: 100%;
+min-height: 18rem;
+overflow: visible;
+pointer-events: none;
+border: 0 !important;
+outline: 0 !important;
+}
+
+.hero-clouds-svg {
+display: block;
+width: 100%;
+height: auto;
+overflow: visible;
+border: 0 !important;
+outline: 0 !important;
+}
+}
+
+@media (min-width: 768px) {
+.hero-cloud-title-wrapper {
+display: none !important;
+}
+}
+
+@media (max-width: 767px) {
+.hero-clouds-svg {
+outline: none !important;
+border: 0 !important;
+}
+
+.hero-cloud-title-wrapper,
+.hero-clouds-wrapper {
+outline: none !important;
+border: 0 !important;
+}
+}
+
 
 
    
