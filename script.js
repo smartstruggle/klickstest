@@ -126,17 +126,6 @@ closeFlyerPopup();
 }
 });
 
-const heroGraphicWrapper = document.querySelector(".hero-graphic-wrapper");
-const heroCloudsWrapper = document.querySelector(".hero-clouds-wrapper");
-const heroCloudsSvg = document.querySelector(".hero-clouds-svg");
-
-const clouds = [
-heroCloudsSvg?.querySelector("#cloud-group-first"),
-heroCloudsSvg?.querySelector("#cloud-group-sec"),
-heroCloudsSvg?.querySelector("#cloud-group-third")
-].filter(Boolean);
-
-
 /* =========================================
 HERO CLOUD ENTRANCE ANIMATION
 ========================================= */
@@ -151,8 +140,6 @@ const prefersReducedMotion = window.matchMedia(
 "(prefers-reduced-motion: reduce)"
 ).matches;
 
-if (prefersReducedMotion) return;
-
 const heroGraphicWrapper = document.querySelector(".hero-graphic-wrapper");
 const heroCloudsWrapper = document.querySelector(".hero-clouds-wrapper");
 const heroCloudsSvg = document.querySelector(".hero-clouds-svg");
@@ -165,14 +152,64 @@ return;
 const clouds = [
 heroCloudsSvg.querySelector("#cloud-group-first"),
 heroCloudsSvg.querySelector("#cloud-group-sec"),
-heroCloudsSvg.querySelector("#cloud-group-third"),
+heroCloudsSvg.querySelector("#cloud-group-third")
 ].filter(Boolean);
 
+console.log("Gefundene Clouds:", clouds);
+
 if (clouds.length === 0) {
-console.warn("Cloud-Animation: Keine Clouds gefunden.");
+console.warn("Cloud-Animation: Keine Clouds gefunden. Prüfe die IDs im SVG.");
 return;
 }
 
+if (prefersReducedMotion) {
+gsap.set(clouds, { opacity: 1 });
+return;
+}
+
+gsap.set(heroCloudsWrapper, {
+opacity: 1,
+visibility: "visible"
+});
+
+gsap.set(clouds, {
+opacity: 0,
+x: -90,
+y: 16,
+scale: 0.86,
+rotation: -2,
+transformOrigin: "50% 50%"
+});
+
+const tl = gsap.timeline({
+delay: 0.25,
+onComplete: () => {
+clouds.forEach((cloud, index) => {
+gsap.to(cloud, {
+x: index === 1 ? -14 : 14,
+y: index === 2 ? 8 : -7,
+scale: index === 1 ? 1.055 : 1.03,
+rotation: index === 1 ? -1.2 : 1,
+duration: 7 + index * 2,
+repeat: -1,
+yoyo: true,
+ease: "sine.inOut"
+});
+});
+}
+});
+
+tl.to(clouds, {
+opacity: 1,
+x: 0,
+y: 0,
+scale: 1,
+rotation: 0,
+duration: 1.9,
+stagger: 0.22,
+ease: "power2.out"
+});
+});
 
 /* =========================================
 4. FORMULAR-SENDEN (API)
