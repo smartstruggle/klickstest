@@ -169,8 +169,9 @@ heroCloudsSvg.querySelector("#cloud-group-third"),
 ].filter(Boolean);
 
 if (clouds.length === 0) {
-console.warn("Cloud-Animation: Keine
-
+console.warn("Cloud-Animation: Keine Clouds gefunden.");
+return;
+}
 
 
 /* =========================================
